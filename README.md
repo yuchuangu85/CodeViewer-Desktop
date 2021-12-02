@@ -10,4 +10,5 @@ Notepad example for desktop written in Compose for Desktop library, using Compos
 ./gradlew package
 # outputs are written to build/compose/binaries
 ```
+
 ![Desktop](screenshots/notepad.gif)
