@@ -5,7 +5,7 @@ plugins {
     // __KOTLIN_COMPOSE_VERSION__
     kotlin("jvm") version "1.5.31"
     // __LATEST_COMPOSE_RELEASE_VERSION__
-    id("org.jetbrains.compose") version ("1.0.0-rc12")
+    id("org.jetbrains.compose") version ("1.0.0")
 }
 
 repositories {
@@ -19,6 +19,8 @@ repositories {
 dependencies {
     implementation(compose.desktop.currentOs)
     implementation(compose.materialIconsExtended)
+    implementation("io.github.vincenzopalazzo:material-ui-swing:1.1.2")
+//    implementation("io.github.vincenzopalazzo:material-ui-swing:1.1.3-rc1-SNAPSHOT")
 }
 
 compose.desktop {

@@ -12,8 +12,13 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
+import mdlaf.components.filechooser.MaterialFileChooserUI
 import util.AlertDialogResult
+import java.io.File
 import java.nio.file.Path
+import javax.swing.JFileChooser
+import javax.swing.filechooser.FileSystemView
+
 
 class NotepadWindowState(
     private val application: NotepadApplicationState,
@@ -95,6 +100,22 @@ class NotepadWindowState(
             if (path != null) {
                 open(path)
             }
+        }
+    }
+
+    suspend fun openFolder() {
+        val fileChooser = JFileChooser(FileSystemView.getFileSystemView())
+        fileChooser.currentDirectory = File(".")
+        fileChooser.dialogTitle = "Directory Chooser"
+
+        fileChooser.fileSelectionMode = JFileChooser.FILES_AND_DIRECTORIES
+        fileChooser.isAcceptAllFileFilterUsed = true
+
+        if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            println("getCurrentDirectory(): " + fileChooser.currentDirectory)
+            println("getSelectedFile() : " + fileChooser.selectedFile)
+        } else {
+            println("No Selection ")
         }
     }
 

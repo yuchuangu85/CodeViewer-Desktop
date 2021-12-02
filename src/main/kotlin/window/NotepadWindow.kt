@@ -98,11 +98,13 @@ private fun FrameWindowScope.WindowMenuBar(state: NotepadWindowState) = MenuBar 
 
     fun save() = scope.launch { state.save() }
     fun open() = scope.launch { state.open() }
+    fun openFolder() = scope.launch { state.openFolder() }
     fun exit() = scope.launch { state.exit() }
 
     Menu("File") {
         Item("New window", onClick = state::newWindow)
         Item("Open...", onClick = { open() })
+        Item("Open Folder", onClick = { openFolder() })
         Item("Save", onClick = { save() }, enabled = state.isChanged || state.path == null)
         Separator()
         Item("Exit", onClick = { exit() })
