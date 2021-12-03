@@ -10,52 +10,52 @@ object Fonts {
     fun jetbrainsMono() = FontFamily(
         Font(
             "JetBrains Mono",
-            "font/jetbrainsmono_regular.ttf",
+            "jetbrainsmono_regular",
             FontWeight.Normal,
             FontStyle.Normal
         ),
         Font(
             "JetBrains Mono",
-            "font/jetbrainsmono_italic.ttf",
+            "jetbrainsmono_italic",
             FontWeight.Normal,
             FontStyle.Italic
         ),
 
         Font(
             "JetBrains Mono",
-            "font/jetbrainsmono_bold.ttf",
+            "jetbrainsmono_bold",
             FontWeight.Bold,
             FontStyle.Normal
         ),
         Font(
             "JetBrains Mono",
-            "font/jetbrainsmono_bold_italic.ttf",
+            "jetbrainsmono_bold_italic",
             FontWeight.Bold,
             FontStyle.Italic
         ),
 
         Font(
             "JetBrains Mono",
-            "font/jetbrainsmono_extrabold.ttf",
+            "jetbrainsmono_extrabold",
             FontWeight.ExtraBold,
             FontStyle.Normal
         ),
         Font(
             "JetBrains Mono",
-            "font/jetbrainsmono_extrabold_italic.ttf",
+            "jetbrainsmono_extrabold_italic",
             FontWeight.ExtraBold,
             FontStyle.Italic
         ),
 
         Font(
             "JetBrains Mono",
-            "font/jetbrainsmono_medium.ttf",
+            "jetbrainsmono_medium",
             FontWeight.Medium,
             FontStyle.Normal
         ),
         Font(
             "JetBrains Mono",
-            "font/jetbrainsmono_medium_italic.ttf",
+            "jetbrainsmono_medium_italic",
             FontWeight.Medium,
             FontStyle.Italic
         )

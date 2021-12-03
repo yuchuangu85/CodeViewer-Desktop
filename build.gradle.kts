@@ -20,7 +20,6 @@ dependencies {
     implementation(compose.desktop.currentOs)
     implementation(compose.materialIconsExtended)
     implementation("io.github.vincenzopalazzo:material-ui-swing:1.1.2")
-//    implementation("io.github.vincenzopalazzo:material-ui-swing:1.1.3-rc1-SNAPSHOT")
 }
 
 compose.desktop {

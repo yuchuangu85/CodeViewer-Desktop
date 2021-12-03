@@ -11,6 +11,8 @@ import androidx.compose.ui.window.*
 import common.LocalAppResources
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import ui.MainView
+import ui.menu.WindowMenuBar
 import util.FileDialog
 import util.YesNoCancelDialog
 
@@ -31,13 +33,15 @@ fun NotepadWindow(state: NotepadWindowState) {
         WindowNotifications(state)
         WindowMenuBar(state)
 
+        MainView()
+
         // TextField isn't efficient for big text files, we use it for simplicity
-        BasicTextField(
-            state.text,
-            state::text::set,
-            enabled = state.isInit,
-            modifier = Modifier.fillMaxSize()
-        )
+//        BasicTextField(
+//            state.text,
+//            state::text::set,
+//            enabled = state.isInit,
+//            modifier = Modifier.fillMaxSize()
+//        )
 
         if (state.openDialog.isAwaiting) {
             FileDialog(
@@ -89,35 +93,5 @@ private fun WindowNotifications(state: NotepadWindowState) {
         state.notifications.collect {
             state.sendNotification(it.format())
         }
-    }
-}
-
-@Composable
-private fun FrameWindowScope.WindowMenuBar(state: NotepadWindowState) = MenuBar {
-    val scope = rememberCoroutineScope()
-
-    fun save() = scope.launch { state.save() }
-    fun open() = scope.launch { state.open() }
-    fun openFolder() = scope.launch { state.openFolder() }
-    fun exit() = scope.launch { state.exit() }
-
-    Menu("File") {
-        Item("New window", onClick = state::newWindow)
-        Item("Open...", onClick = { open() })
-        Item("Open Folder", onClick = { openFolder() })
-        Item("Save", onClick = { save() }, enabled = state.isChanged || state.path == null)
-        Separator()
-        Item("Exit", onClick = { exit() })
-    }
-
-    Menu("Settings") {
-        Item(
-            if (state.settings.isTrayEnabled) "Hide tray" else "Show tray",
-            onClick = state.settings::toggleTray
-        )
-        Item(
-            if (state.window.placement == WindowPlacement.Fullscreen) "Exit fullscreen" else "Enter fullscreen",
-            onClick = state::toggleFullscreen
-        )
     }
 }
