@@ -5,8 +5,6 @@ package common
 import kotlinx.coroutines.CoroutineScope
 import util.TextLines
 
-val HomeFolder: File get() = java.io.File(System.getProperty("user.home")).toProjectFile()
-
 interface File {
     val name: String
     val isDirectory: Boolean

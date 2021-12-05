@@ -6,7 +6,7 @@ import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.WindowPlacement
 import kotlinx.coroutines.launch
-import window.NotepadWindowState
+import window.CodeViewerWindowState
 
 /**
  * Created by yuchuan
@@ -14,7 +14,7 @@ import window.NotepadWindowState
  * TIME 22:27
  */
 @Composable
-fun FrameWindowScope.WindowMenuBar(state: NotepadWindowState) = MenuBar {
+fun FrameWindowScope.windowMenuBar(state: CodeViewerWindowState) = MenuBar {
     val scope = rememberCoroutineScope()
 
     fun save() = scope.launch { state.save() }

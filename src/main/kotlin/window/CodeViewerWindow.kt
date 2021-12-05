@@ -1,24 +1,22 @@
 package window
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.*
 import common.LocalAppResources
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import ui.MainView
-import ui.menu.WindowMenuBar
-import util.FileDialog
-import util.YesNoCancelDialog
+import ui.menu.windowMenuBar
+import util.fileChooserDialog
+import util.fileDialog
+import util.yesNoCancelDialog
 
 @Composable
-fun NotepadWindow(state: NotepadWindowState) {
+fun codeViewerWindow(state: CodeViewerWindowState) {
+
     val scope = rememberCoroutineScope()
+    var selectFile: java.io.File? = null
 
     fun exit() = scope.launch { state.exit() }
 
@@ -30,22 +28,14 @@ fun NotepadWindow(state: NotepadWindowState) {
     ) {
         LaunchedEffect(Unit) { state.run() }
 
-        WindowNotifications(state)
-        WindowMenuBar(state)
+        windowNotifications(state)
+        windowMenuBar(state)
 
-        MainView()
-
-        // TextField isn't efficient for big text files, we use it for simplicity
-//        BasicTextField(
-//            state.text,
-//            state::text::set,
-//            enabled = state.isInit,
-//            modifier = Modifier.fillMaxSize()
-//        )
+        mainView(selectFile)
 
         if (state.openDialog.isAwaiting) {
-            FileDialog(
-                title = "Notepad",
+            fileDialog(
+                title = "CodeViewer",
                 isLoad = true,
                 onResult = {
                     state.openDialog.onResult(it)
@@ -54,31 +44,37 @@ fun NotepadWindow(state: NotepadWindowState) {
         }
 
         if (state.saveDialog.isAwaiting) {
-            FileDialog(
-                title = "Notepad",
+            fileDialog(
+                title = "CodeViewer",
                 isLoad = false,
                 onResult = { state.saveDialog.onResult(it) }
             )
         }
 
         if (state.exitDialog.isAwaiting) {
-            YesNoCancelDialog(
-                title = "Notepad",
+            yesNoCancelDialog(
+                title = "CodeViewer",
                 message = "Save changes?",
                 onResult = { state.exitDialog.onResult(it) }
             )
         }
+
+        if (state.openFolderDialog.isAwaiting) {
+            fileChooserDialog(
+                title = "File Chooser",
+            ) { state.openFolderDialog.onResult(it) }
+        }
     }
 }
 
-private fun titleOf(state: NotepadWindowState): String {
+private fun titleOf(state: CodeViewerWindowState): String {
     val changeMark = if (state.isChanged) "*" else ""
     val filePath = state.path ?: "Untitled"
     return "$changeMark$filePath - Notepad"
 }
 
 @Composable
-private fun WindowNotifications(state: NotepadWindowState) {
+private fun windowNotifications(state: CodeViewerWindowState) {
     // Usually we take into account something like LocalLocale.current here
     fun NotepadWindowNotification.format() = when (this) {
         is NotepadWindowNotification.SaveSuccess -> Notification(

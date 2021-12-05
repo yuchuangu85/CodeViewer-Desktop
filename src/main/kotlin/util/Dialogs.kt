@@ -2,10 +2,10 @@ package util
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.AwtWindow
 import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.WindowScope
+import androidx.compose.ui.window.WindowState
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -16,9 +16,10 @@ import java.io.File
 import java.nio.file.Path
 import javax.swing.JFileChooser
 import javax.swing.JOptionPane
+import javax.swing.filechooser.FileSystemView
 
 @Composable
-fun FrameWindowScope.FileDialog(
+fun FrameWindowScope.fileDialog(
     title: String,
     isLoad: Boolean,
     onResult: (result: Path?) -> Unit
@@ -42,9 +43,31 @@ fun FrameWindowScope.FileDialog(
     dispose = FileDialog::dispose
 )
 
+@Composable
+fun fileChooserDialog(
+    title: String,
+    onResult: (result: File?) -> Unit
+) {
+    val fileChooser = JFileChooser(FileSystemView.getFileSystemView())
+    fileChooser.currentDirectory = File(System.getProperty("user.dir"))
+    fileChooser.dialogTitle = title
+    fileChooser.fileSelectionMode = JFileChooser.FILES_AND_DIRECTORIES
+    fileChooser.isAcceptAllFileFilterUsed = true
+    fileChooser.selectedFile = null
+    fileChooser.currentDirectory = null
+    if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+        val file = fileChooser.selectedFile
+        println("choose file or folder is: $file")
+        onResult(file)
+    } else {
+        onResult(null)
+        println("No Selection ")
+    }
+}
+
 @OptIn(DelicateCoroutinesApi::class)
 @Composable
-fun WindowScope.YesNoCancelDialog(
+fun WindowScope.yesNoCancelDialog(
     title: String,
     message: String,
     onResult: (result: AlertDialogResult) -> Unit

@@ -1,28 +1,55 @@
 package window
 
-import NotepadApplicationState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import CodeViewerApplicationState
+import androidx.compose.foundation.text.selection.DisableSelection
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.runtime.*
 import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
+import common.AppTheme
 import common.Settings
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
+import ui.CodeViewer
+import ui.CodeViewerView
+import ui.editor.Editors
 import util.AlertDialogResult
 import java.io.File
 import java.nio.file.Path
-import javax.swing.JFileChooser
-import javax.swing.filechooser.FileSystemView
 
+@Composable
+fun mainView(selectFile: File?) {
+    val codeViewer = remember {
+        val editors = Editors()
+//        val homeFolder: File = java.io.File(System.getProperty("user.home")).toProjectFile()
+        CodeViewer(
+            editors = editors,
+//            fileTree = FileTree(homeFolder, editors),
+            fileTree = selectFile,
+            settings = Settings()
+        )
+    }
 
-class NotepadWindowState(
-    private val application: NotepadApplicationState,
+    DisableSelection {
+        MaterialTheme(
+            colors = AppTheme.colors.material
+        ) {
+            Surface {
+                CodeViewerView(codeViewer)
+            }
+        }
+    }
+}
+
+class CodeViewerWindowState(
+    private val application: CodeViewerApplicationState,
     path: Path?,
-    private val exit: (NotepadWindowState) -> Unit
+    file: File?,
+    private val exit: (CodeViewerWindowState) -> Unit
 ) {
     val settings: Settings get() = application.settings
 
@@ -37,6 +64,7 @@ class NotepadWindowState(
     val openDialog = DialogState<Path?>()
     val saveDialog = DialogState<Path?>()
     val exitDialog = DialogState<AlertDialogResult>()
+    val openFolderDialog = DialogState<File?>()
 
     private var _notifications = Channel<NotepadWindowNotification>(0)
     val notifications: Flow<NotepadWindowNotification> get() = _notifications.receiveAsFlow()
@@ -103,27 +131,8 @@ class NotepadWindowState(
     }
 
     suspend fun openFolder() {
-        val fileChooser = JFileChooser(FileSystemView.getFileSystemView())
-        fileChooser.currentDirectory = File(System.getProperty("user.dir"))
-        fileChooser.dialogTitle = "Chooser The Folder"
-        fileChooser.fileSelectionMode = JFileChooser.FILES_AND_DIRECTORIES
-        fileChooser.isAcceptAllFileFilterUsed = true
-        fileChooser.selectedFile = null
-        fileChooser.currentDirectory = null
-
-        if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-            val file = fileChooser.selectedFile
-            println("choose file or folder is: $file")
-            if (file != null) {
-                if (file.isDirectory) {
-
-                } else if (file.isFile) {
-
-                }
-            }
-        } else {
-            println("No Selection ")
-        }
+        isInit = false
+        isChanged = false;
     }
 
     suspend fun save(): Boolean {

@@ -4,27 +4,28 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.TrayState
 import common.Settings
-import window.NotepadWindowState
+import window.CodeViewerWindowState
 
 @Composable
 fun rememberApplicationState() = remember {
-    NotepadApplicationState().apply {
+    CodeViewerApplicationState().apply {
         newWindow()
     }
 }
 
-class NotepadApplicationState {
+class CodeViewerApplicationState {
     val settings = Settings()
-    val tray = TrayState()
+    private val tray = TrayState()
 
-    private val _windows = mutableStateListOf<NotepadWindowState>()
-    val windows: List<NotepadWindowState> get() = _windows
+    private val _windows = mutableStateListOf<CodeViewerWindowState>()
+    val windows: List<CodeViewerWindowState> get() = _windows
 
     fun newWindow() {
         _windows.add(
-            NotepadWindowState(
+            CodeViewerWindowState(
                 application = this,
                 path = null,
+                file = null,
                 exit = _windows::remove
             )
         )

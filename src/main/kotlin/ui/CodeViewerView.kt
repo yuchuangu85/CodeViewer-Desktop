@@ -46,10 +46,10 @@ fun CodeViewerView(model: CodeViewer) {
                 (panelState.expandedSize + it).coerceAtLeast(panelState.expandedSizeMin)
         }
     ) {
-        ResizablePanel(Modifier.width(animatedSize).fillMaxHeight(), panelState) {
+        resizablePanel(Modifier.width(animatedSize).fillMaxHeight(), panelState) {
             Column {
                 FileTreeViewTabView()
-                FileTreeView(model.fileTree)
+                model.fileTree?.let { FileTreeView(it) }
             }
         }
 
@@ -78,7 +78,7 @@ private class PanelState {
 }
 
 @Composable
-private fun ResizablePanel(
+private fun resizablePanel(
     modifier: Modifier,
     state: PanelState,
     content: @Composable () -> Unit,
