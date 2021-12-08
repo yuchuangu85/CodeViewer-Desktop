@@ -25,6 +25,7 @@ import ui.statusbar.StatusBar
 import util.SplitterState
 import util.VerticalSplittable
 
+// Code View
 @Composable
 fun CodeViewerView(model: CodeViewer) {
     val panelState = remember { PanelState() }

@@ -17,14 +17,12 @@ import window.CodeViewerWindowState
 fun FrameWindowScope.WindowMenuBar(state: CodeViewerWindowState) = MenuBar {
     val scope = rememberCoroutineScope()
 
-    fun save() = scope.launch { state.save() }
     fun open() = scope.launch { state.open() }
     fun exit() = scope.launch { state.exit() }
 
     Menu("File") {
 //        Item("New window", onClick = state::newWindow)
         Item("Open...", onClick = { open() })
-        Item("Save", onClick = { save() }, enabled = state.isChanged)
         Separator()
         Item("Exit", onClick = { exit() })
     }

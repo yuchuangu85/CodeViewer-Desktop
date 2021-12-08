@@ -52,7 +52,7 @@ class CodeViewerApplicationState {
         tray.sendNotification(notification)
     }
 
-    suspend fun exit() {
+    fun exit() {
         val windowsCopy = windows.reversed()
         for (window in windowsCopy) {
             if (!window.exit()) {

@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+// The right EditorView without code.
 @Composable
 fun EditorEmptyView() = Box(Modifier.fillMaxSize()) {
     Column(Modifier.align(Alignment.Center)) {
