@@ -3,29 +3,47 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.TrayState
+import common.File
 import common.Settings
+import launcher.LauncherWindowState
 import window.CodeViewerWindowState
+import java.nio.file.Path
 
 @Composable
 fun rememberApplicationState() = remember {
     CodeViewerApplicationState().apply {
-        newWindow()
+        newLauncherWindow()
     }
 }
 
 class CodeViewerApplicationState {
     val settings = Settings()
-    private val tray = TrayState()
+    val tray = TrayState()
+
+    private val _launcherWindows = mutableStateListOf<LauncherWindowState>()
+    val launcherWindow: List<LauncherWindowState> get() = _launcherWindows
+
+    fun newLauncherWindow() {
+        _launcherWindows.add(
+            LauncherWindowState(
+                application = this,
+                exit = _launcherWindows::remove,
+                openEditor = {
+                    newWindow(it.file)
+                }
+            )
+        )
+    }
 
     private val _windows = mutableStateListOf<CodeViewerWindowState>()
     val windows: List<CodeViewerWindowState> get() = _windows
 
-    fun newWindow() {
+    fun newWindow(file: java.io.File) {
+        println("newWindow: ${file.path}")
         _windows.add(
             CodeViewerWindowState(
                 application = this,
-                path = null,
-                file = null,
+                file = file,
                 exit = _windows::remove
             )
         )

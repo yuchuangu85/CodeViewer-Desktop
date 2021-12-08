@@ -14,19 +14,17 @@ import window.CodeViewerWindowState
  * TIME 22:27
  */
 @Composable
-fun FrameWindowScope.windowMenuBar(state: CodeViewerWindowState) = MenuBar {
+fun FrameWindowScope.WindowMenuBar(state: CodeViewerWindowState) = MenuBar {
     val scope = rememberCoroutineScope()
 
     fun save() = scope.launch { state.save() }
     fun open() = scope.launch { state.open() }
-    fun openFolder() = scope.launch { state.openFolder() }
     fun exit() = scope.launch { state.exit() }
 
     Menu("File") {
-        Item("New window", onClick = state::newWindow)
+//        Item("New window", onClick = state::newWindow)
         Item("Open...", onClick = { open() })
-        Item("Open Folder", onClick = { openFolder() })
-        Item("Save", onClick = { save() }, enabled = state.isChanged || state.path == null)
+        Item("Save", onClick = { save() }, enabled = state.isChanged)
         Separator()
         Item("Exit", onClick = { exit() })
     }

@@ -7,18 +7,19 @@ import androidx.compose.ui.window.*
 import common.LocalAppResources
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import ui.menu.windowMenuBar
-import util.fileChooserDialog
-import util.fileDialog
+import ui.MainView
+import ui.menu.WindowMenuBar
+import util.FileChooserDialog
+import util.FileDialog
 import util.yesNoCancelDialog
 
 @Composable
-fun codeViewerWindow(state: CodeViewerWindowState) {
+fun CodeViewerWindow(state: CodeViewerWindowState) {
 
     val scope = rememberCoroutineScope()
-    var selectFile: java.io.File? = null
-
-    fun exit() = scope.launch { state.exit() }
+    fun exit() = scope.launch {
+        state.exit()
+    }
 
     Window(
         state = state.window,
@@ -28,15 +29,13 @@ fun codeViewerWindow(state: CodeViewerWindowState) {
     ) {
         LaunchedEffect(Unit) { state.run() }
 
-        windowNotifications(state)
-        windowMenuBar(state)
-
-        mainView(selectFile)
+        WindowNotifications(state)
+        WindowMenuBar(state)
+        MainView(state)
 
         if (state.openDialog.isAwaiting) {
-            fileDialog(
+            FileChooserDialog(
                 title = "CodeViewer",
-                isLoad = true,
                 onResult = {
                     state.openDialog.onResult(it)
                 }
@@ -44,9 +43,8 @@ fun codeViewerWindow(state: CodeViewerWindowState) {
         }
 
         if (state.saveDialog.isAwaiting) {
-            fileDialog(
+            FileChooserDialog(
                 title = "CodeViewer",
-                isLoad = false,
                 onResult = { state.saveDialog.onResult(it) }
             )
         }
@@ -58,30 +56,24 @@ fun codeViewerWindow(state: CodeViewerWindowState) {
                 onResult = { state.exitDialog.onResult(it) }
             )
         }
-
-        if (state.openFolderDialog.isAwaiting) {
-            fileChooserDialog(
-                title = "File Chooser",
-            ) { state.openFolderDialog.onResult(it) }
-        }
     }
 }
 
 private fun titleOf(state: CodeViewerWindowState): String {
     val changeMark = if (state.isChanged) "*" else ""
-    val filePath = state.path ?: "Untitled"
+    val filePath = state.file ?: "Untitled"
     return "$changeMark$filePath - Notepad"
 }
 
 @Composable
-private fun windowNotifications(state: CodeViewerWindowState) {
+private fun WindowNotifications(state: CodeViewerWindowState) {
     // Usually we take into account something like LocalLocale.current here
     fun NotepadWindowNotification.format() = when (this) {
         is NotepadWindowNotification.SaveSuccess -> Notification(
-            "File is saved", path.toString(), Notification.Type.Info
+            "File is saved", file.path, Notification.Type.Info
         )
         is NotepadWindowNotification.SaveError -> Notification(
-            "File isn't saved", path.toString(), Notification.Type.Error
+            "File isn't saved", file.path, Notification.Type.Error
         )
     }
 

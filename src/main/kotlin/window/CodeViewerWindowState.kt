@@ -1,70 +1,37 @@
 package window
 
 import CodeViewerApplicationState
-import androidx.compose.foundation.text.selection.DisableSelection
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
-import common.AppTheme
 import common.Settings
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
-import ui.CodeViewer
-import ui.CodeViewerView
-import ui.editor.Editors
 import util.AlertDialogResult
-import java.io.File
 import java.nio.file.Path
 
-@Composable
-fun mainView(selectFile: File?) {
-    val codeViewer = remember {
-        val editors = Editors()
-//        val homeFolder: File = java.io.File(System.getProperty("user.home")).toProjectFile()
-        CodeViewer(
-            editors = editors,
-//            fileTree = FileTree(homeFolder, editors),
-            fileTree = selectFile,
-            settings = Settings()
-        )
-    }
-
-    DisableSelection {
-        MaterialTheme(
-            colors = AppTheme.colors.material
-        ) {
-            Surface {
-                CodeViewerView(codeViewer)
-            }
-        }
-    }
-}
 
 class CodeViewerWindowState(
     private val application: CodeViewerApplicationState,
-    path: Path?,
-    file: File?,
+    file: java.io.File,
     private val exit: (CodeViewerWindowState) -> Unit
 ) {
     val settings: Settings get() = application.settings
 
     val window = WindowState()
 
-    var path by mutableStateOf(path)
-        private set
-
     var isChanged by mutableStateOf(false)
         private set
 
-    val openDialog = DialogState<Path?>()
-    val saveDialog = DialogState<Path?>()
+    var file by mutableStateOf(file)
+        private set
+
+    val openDialog = DialogState<java.io.File?>()
+    val saveDialog = DialogState<java.io.File?>()
     val exitDialog = DialogState<AlertDialogResult>()
-    val openFolderDialog = DialogState<File?>()
 
     private var _notifications = Channel<NotepadWindowNotification>(0)
     val notifications: Flow<NotepadWindowNotification> get() = _notifications.receiveAsFlow()
@@ -91,23 +58,19 @@ class CodeViewerWindowState(
     }
 
     suspend fun run() {
-        if (path != null) {
-            open(path!!)
-        } else {
-            initNew()
-        }
+        open(file)
     }
 
-    private suspend fun open(path: Path) {
+    private suspend fun open(file: java.io.File) {
         isInit = false
         isChanged = false
-        this.path = path
+        this.file = file
         try {
-            _text = path.readTextAsync()
+            _text = file.resolve(file).toPath().readTextAsync()
             isInit = true
         } catch (e: Exception) {
             e.printStackTrace()
-            text = "Cannot read $path"
+            text = "Cannot read $file"
         }
     }
 
@@ -118,7 +81,7 @@ class CodeViewerWindowState(
     }
 
     fun newWindow() {
-        application.newWindow()
+//        application.newWindow()
     }
 
     suspend fun open() {
@@ -130,42 +93,37 @@ class CodeViewerWindowState(
         }
     }
 
-    suspend fun openFolder() {
-        isInit = false
-        isChanged = false;
-    }
-
     suspend fun save(): Boolean {
         check(isInit)
-        if (path == null) {
-            val path = saveDialog.awaitResult()
-            if (path != null) {
-                save(path)
-                return true
-            }
-        } else {
-            save(path!!)
-            return true
-        }
-        return false
+//        if (file == null) {
+//            val file = saveDialog.awaitResult()
+//            if (path != null) {
+//                save(path)
+//                return true
+//            }
+//        } else {
+//            save(path!!)
+//            return true
+//        }
+        return true
     }
 
     private var saveJob: Job? = null
 
-    private suspend fun save(path: Path) {
+    private suspend fun save(file: java.io.File) {
         isChanged = false
-        this.path = path
+        this.file = file
 
         saveJob?.cancel()
-        saveJob = path.launchSaving(text)
+        saveJob = file.resolve(file).toPath().launchSaving(text)
 
         try {
             saveJob?.join()
-            _notifications.trySend(NotepadWindowNotification.SaveSuccess(path))
+            _notifications.trySend(NotepadWindowNotification.SaveSuccess(file))
         } catch (e: Exception) {
             isChanged = true
             e.printStackTrace()
-            _notifications.trySend(NotepadWindowNotification.SaveError(path))
+            _notifications.trySend(NotepadWindowNotification.SaveError(file))
         }
     }
 
@@ -209,16 +167,26 @@ private fun Path.launchSaving(text: String) = GlobalScope.launch {
 }
 
 private suspend fun Path.writeTextAsync(text: String) = withContext(Dispatchers.IO) {
-    toFile().writeText(text)
+    val file = toFile()
+    if (file.isFile) {
+        file.writeText(text)
+    } else {
+        ""
+    }
 }
 
 private suspend fun Path.readTextAsync() = withContext(Dispatchers.IO) {
-    toFile().readText()
+    val file = toFile()
+    if (file.isFile) {
+        file.readText()
+    } else {
+        ""
+    }
 }
 
 sealed class NotepadWindowNotification {
-    class SaveSuccess(val path: Path) : NotepadWindowNotification()
-    class SaveError(val path: Path) : NotepadWindowNotification()
+    class SaveSuccess(val file: java.io.File) : NotepadWindowNotification()
+    class SaveError(val file: java.io.File) : NotepadWindowNotification()
 }
 
 class DialogState<T> {

@@ -5,7 +5,6 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.window.AwtWindow
 import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.WindowScope
-import androidx.compose.ui.window.WindowState
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -19,7 +18,7 @@ import javax.swing.JOptionPane
 import javax.swing.filechooser.FileSystemView
 
 @Composable
-fun FrameWindowScope.fileDialog(
+fun FrameWindowScope.FileDialog(
     title: String,
     isLoad: Boolean,
     onResult: (result: Path?) -> Unit
@@ -44,9 +43,9 @@ fun FrameWindowScope.fileDialog(
 )
 
 @Composable
-fun fileChooserDialog(
+fun FileChooserDialog(
     title: String,
-    onResult: (result: File?) -> Unit
+    onResult: (result: File) -> Unit
 ) {
     val fileChooser = JFileChooser(FileSystemView.getFileSystemView())
     fileChooser.currentDirectory = File(System.getProperty("user.dir"))
@@ -60,7 +59,7 @@ fun fileChooserDialog(
         println("choose file or folder is: $file")
         onResult(file)
     } else {
-        onResult(null)
+//        onResult(java.io.File(""))
         println("No Selection ")
     }
 }

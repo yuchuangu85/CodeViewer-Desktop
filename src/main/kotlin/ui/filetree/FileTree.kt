@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import ui.editor.Editors
 
+// 可展开文件（文件夹）
 class ExpandableFile(
     val file: File,
     val level: Int,
@@ -25,6 +26,7 @@ class ExpandableFile(
     }
 }
 
+// 文件树
 class FileTree(root: File, private val editors: Editors) {
     private val expandableRoot = ExpandableFile(root, 0).apply {
         toggleExpanded()
@@ -32,23 +34,24 @@ class FileTree(root: File, private val editors: Editors) {
 
     val items: List<Item> get() = expandableRoot.toItems()
 
+    // 文件树每个子树
     inner class Item constructor(
-        private val file: ExpandableFile
+        private val expandableFile: ExpandableFile
     ) {
-        val name: String get() = file.file.name
+        val name: String get() = expandableFile.file.name
 
-        val level: Int get() = file.level
+        val level: Int get() = expandableFile.level
 
         val type: ItemType
-            get() = if (file.file.isDirectory) {
-                ItemType.Folder(isExpanded = file.children.isNotEmpty(), canExpand = file.canExpand)
+            get() = if (expandableFile.file.isDirectory) {
+                ItemType.Folder(isExpanded = expandableFile.children.isNotEmpty(), canExpand = expandableFile.canExpand)
             } else {
-                ItemType.File(ext = file.file.name.substringAfterLast(".").lowercase())
+                ItemType.File(ext = expandableFile.file.name.substringAfterLast(".").lowercase())
             }
 
         fun open() = when (type) {
-            is ItemType.Folder -> file.toggleExpanded()
-            is ItemType.File -> editors.open(file.file)
+            is ItemType.Folder -> expandableFile.toggleExpanded()
+            is ItemType.File -> editors.open(expandableFile.file)
         }
     }
 
