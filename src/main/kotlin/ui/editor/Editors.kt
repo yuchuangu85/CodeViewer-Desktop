@@ -1,7 +1,7 @@
 package ui.editor
 
 import androidx.compose.runtime.mutableStateListOf
-import common.Folder
+import common.CodeFile
 import util.SingleSelection
 
 class Editors {
@@ -12,8 +12,8 @@ class Editors {
 
     val active: Editor? get() = selection.selected as Editor?
 
-    fun open(folder: Folder) {
-        val editor = Editor(folder)
+    fun open(codeFile: CodeFile) {
+        val editor = Editor(codeFile)
         editor.selection = selection
         editor.close = {
             close(editor)

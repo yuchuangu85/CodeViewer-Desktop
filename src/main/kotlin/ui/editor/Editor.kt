@@ -2,7 +2,7 @@ package ui.editor
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import common.Folder
+import common.CodeFile
 import kotlinx.coroutines.CoroutineScope
 import util.EmptyTextLines
 import util.SingleSelection
@@ -32,16 +32,16 @@ class Editor(
     class Content(val value: State<String>, val isCode: Boolean)
 }
 
-fun Editor(folder: Folder) = Editor(
-    fileName = folder.name
+fun Editor(codeFile: CodeFile) = Editor(
+    fileName = codeFile.name
 ) { backgroundScope ->
     val textLines = try {
-        folder.readLines(backgroundScope)
+        codeFile.readLines(backgroundScope)
     } catch (e: Throwable) {
         e.printStackTrace()
         EmptyTextLines
     }
-    val isCode = folder.name.endsWith(".kt", ignoreCase = true)
+    val isCode = codeFile.name.endsWith(".kt", ignoreCase = true)
 
     fun content(index: Int): Editor.Content {
         val text = textLines.get(index)

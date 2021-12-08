@@ -5,10 +5,10 @@ package common
 import kotlinx.coroutines.CoroutineScope
 import util.TextLines
 
-interface Folder {
+interface CodeFile {
     val name: String
     val isDirectory: Boolean
-    val children: List<Folder>
+    val children: List<CodeFile>
     val hasChildren: Boolean
 
     fun readLines(scope: CoroutineScope): TextLines

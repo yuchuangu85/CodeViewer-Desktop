@@ -9,12 +9,12 @@ import java.io.*
 import java.nio.channels.FileChannel
 import java.nio.charset.StandardCharsets
 
-fun File.toProjectFile(): Folder = object : Folder {
+fun File.toProjectFile(): CodeFile = object : CodeFile {
     override val name: String get() = this@toProjectFile.name
 
     override val isDirectory: Boolean get() = this@toProjectFile.isDirectory
 
-    override val children: List<Folder>
+    override val children: List<CodeFile>
         get() = this@toProjectFile
             .listFiles(FilenameFilter { _, name -> !name.startsWith(".")})
             .orEmpty()

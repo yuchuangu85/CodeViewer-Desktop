@@ -19,9 +19,9 @@ import window.CodeViewerWindowState
  */
 @Composable
 fun MainView(state: CodeViewerWindowState) {
-    val codeViewer = remember {
+    val codeViewerModel = remember {
         val editors = Editors()
-        CodeViewer(
+        CodeViewerModel(
             editors = editors,
             fileTree = FileTree(state.file.toProjectFile(), editors),
             settings = Settings()
@@ -33,7 +33,7 @@ fun MainView(state: CodeViewerWindowState) {
             colors = AppTheme.colors.material
         ) {
             Surface {
-                CodeViewerView(codeViewer)
+                CodeViewerView(codeViewerModel)
             }
         }
     }

@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.WindowState
 import window.DialogState
+import java.io.File
 
 /**
  * Created by yuchuan.gu
@@ -26,10 +27,10 @@ class LauncherWindowState(
         size = DpSize(800f.dp, 500f.dp),
     )
 
-    var file by mutableStateOf(java.io.File(""))
+    var file by mutableStateOf(File(""))
         private set
 
-    val openDialog = DialogState<java.io.File?>()
+    val openDialog = DialogState<File?>()
 
     suspend fun chooseFile() {
         val file = openDialog.awaitResult()

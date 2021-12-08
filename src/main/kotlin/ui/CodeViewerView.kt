@@ -27,7 +27,7 @@ import util.VerticalSplittable
 
 // Code View
 @Composable
-fun CodeViewerView(model: CodeViewer) {
+fun CodeViewerView(model: CodeViewerModel) {
     val panelState = remember { PanelState() }
 
     val animatedSize = if (panelState.splitter.isResizing) {
