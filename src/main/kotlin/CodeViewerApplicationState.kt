@@ -3,11 +3,10 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.TrayState
-import common.File
 import common.Settings
 import launcher.LauncherWindowState
 import window.CodeViewerWindowState
-import java.nio.file.Path
+import java.io.File
 
 @Composable
 fun rememberApplicationState() = remember {
@@ -38,7 +37,7 @@ class CodeViewerApplicationState {
     private val _windows = mutableStateListOf<CodeViewerWindowState>()
     val windows: List<CodeViewerWindowState> get() = _windows
 
-    fun newWindow(file: java.io.File) {
+    fun newWindow(file: File) {
         println("newWindow: ${file.path}")
         _windows.add(
             CodeViewerWindowState(

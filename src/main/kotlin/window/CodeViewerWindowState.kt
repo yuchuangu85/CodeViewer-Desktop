@@ -11,12 +11,13 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
 import util.AlertDialogResult
+import java.io.File
 import java.nio.file.Path
 
 
 class CodeViewerWindowState(
     private val application: CodeViewerApplicationState,
-    file: java.io.File,
+    file: File,
     private val exit: (CodeViewerWindowState) -> Unit
 ) {
     val settings: Settings get() = application.settings
@@ -29,8 +30,8 @@ class CodeViewerWindowState(
     var file by mutableStateOf(file)
         private set
 
-    val openDialog = DialogState<java.io.File?>()
-    val saveDialog = DialogState<java.io.File?>()
+    val openDialog = DialogState<File?>()
+    val saveDialog = DialogState<File?>()
     val exitDialog = DialogState<AlertDialogResult>()
 
     private var _notifications = Channel<NotepadWindowNotification>(0)
@@ -61,7 +62,7 @@ class CodeViewerWindowState(
         open(file)
     }
 
-    private suspend fun open(file: java.io.File) {
+    private suspend fun open(file: File) {
         isInit = false
         isChanged = false
         this.file = file
@@ -110,7 +111,7 @@ class CodeViewerWindowState(
 
     private var saveJob: Job? = null
 
-    private suspend fun save(file: java.io.File) {
+    private suspend fun save(file: File) {
         isChanged = false
         this.file = file
 
@@ -168,25 +169,17 @@ private fun Path.launchSaving(text: String) = GlobalScope.launch {
 
 private suspend fun Path.writeTextAsync(text: String) = withContext(Dispatchers.IO) {
     val file = toFile()
-    if (file.isFile) {
-        file.writeText(text)
-    } else {
-        ""
-    }
+    file.writeText(text)
 }
 
 private suspend fun Path.readTextAsync() = withContext(Dispatchers.IO) {
     val file = toFile()
-    if (file.isFile) {
-        file.readText()
-    } else {
-        ""
-    }
+    file.readText()
 }
 
 sealed class NotepadWindowNotification {
-    class SaveSuccess(val file: java.io.File) : NotepadWindowNotification()
-    class SaveError(val file: java.io.File) : NotepadWindowNotification()
+    class SaveSuccess(val file: File) : NotepadWindowNotification()
+    class SaveError(val file: File) : NotepadWindowNotification()
 }
 
 class DialogState<T> {

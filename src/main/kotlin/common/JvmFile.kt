@@ -12,12 +12,12 @@ import java.io.RandomAccessFile
 import java.nio.channels.FileChannel
 import java.nio.charset.StandardCharsets
 
-fun java.io.File.toProjectFile(): File = object : File {
+fun java.io.File.toProjectFile(): Folder = object : Folder {
     override val name: String get() = this@toProjectFile.name
 
     override val isDirectory: Boolean get() = this@toProjectFile.isDirectory
 
-    override val children: List<File>
+    override val children: List<Folder>
         get() = this@toProjectFile
             .listFiles(FilenameFilter { _, name -> !name.startsWith(".")})
             .orEmpty()

@@ -27,7 +27,7 @@ fun CodeViewerWindow(state: CodeViewerWindowState) {
         icon = LocalAppResources.current.icon,
         onCloseRequest = { exit() }
     ) {
-        LaunchedEffect(Unit) { state.run() }
+//        LaunchedEffect(Unit) { state.run() }
 
         WindowNotifications(state)
         WindowMenuBar(state)
@@ -61,7 +61,7 @@ fun CodeViewerWindow(state: CodeViewerWindowState) {
 
 private fun titleOf(state: CodeViewerWindowState): String {
     val changeMark = if (state.isChanged) "*" else ""
-    val filePath = state.file ?: "Untitled"
+    val filePath = state.file
     return "$changeMark$filePath - Notepad"
 }
 

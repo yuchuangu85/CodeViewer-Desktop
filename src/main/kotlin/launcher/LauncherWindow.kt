@@ -21,6 +21,9 @@ import androidx.compose.ui.res.loadImageBitmap
 import androidx.compose.ui.res.useResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.ExperimentalUnitApi
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import common.LocalAppResources
@@ -85,6 +88,7 @@ fun LauncherList() {
 }
 
 // 右侧：导入项目等操作
+@OptIn(ExperimentalUnitApi::class)
 @Composable
 fun LauncherOperatorList(chooseFile: () -> Unit) {
     Box(
@@ -117,7 +121,7 @@ fun LauncherOperatorList(chooseFile: () -> Unit) {
             Text(
                 text = "Open File",
                 modifier = Modifier
-                    .height(40.dp)
+                    .height(50.dp)
                     .fillMaxWidth()
                     .padding(10.dp, 10.dp, 10.dp, 10.dp)
                     .clickable(onClick = {
@@ -125,6 +129,7 @@ fun LauncherOperatorList(chooseFile: () -> Unit) {
                     })
                     .background(Color(108, 108, 108)),
                 color = Color.White,
+                fontSize = TextUnit(20f, TextUnitType.Sp),
                 textAlign = TextAlign.Justify,
                 maxLines = 1,
                 softWrap = true,
