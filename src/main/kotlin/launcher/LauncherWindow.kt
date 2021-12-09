@@ -65,7 +65,7 @@ fun LauncherWindow(
 
         if (state.openDialog.isAwaiting) {
             FileChooserDialog(
-                title = "Welcome to DevStudio",
+                title = "Welcome to CodeViewer",
                 onResult = {
                     state.openDialog.onResult(it)
                 }
@@ -118,25 +118,29 @@ fun LauncherOperatorList(chooseFile: () -> Unit) {
 
                 )
             }
-            Text(
-                text = "Open File",
-                modifier = Modifier
-                    .height(50.dp)
-                    .fillMaxWidth()
-                    .padding(10.dp, 10.dp, 10.dp, 10.dp)
-                    .clickable(onClick = {
-                        chooseFile()
-                    })
-                    .background(Color(108, 108, 108)),
-                color = Color.White,
-                fontSize = TextUnit(20f, TextUnitType.Sp),
-                textAlign = TextAlign.Justify,
-                maxLines = 1,
-                softWrap = true,
-                style = TextStyle(
+            Box(
+                modifier = Modifier.align(Alignment.Start)
+            ){
+                Text(
+                    text = "Open File",
+                    modifier = Modifier
+                        .height(50.dp)
+                        .fillMaxWidth()
+                        .padding(10.dp, 10.dp, 10.dp, 10.dp)
+                        .clickable(onClick = {
+                            chooseFile()
+                        })
+                        .background(Color(108, 108, 108)),
+                    color = Color.White,
+                    fontSize = TextUnit(20f, TextUnitType.Sp),
                     textAlign = TextAlign.Justify,
+                    maxLines = 1,
+                    softWrap = true,
+                    style = TextStyle(
+                        textAlign = TextAlign.Justify,
+                    )
                 )
-            )
+            }
         }
     }
 }

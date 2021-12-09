@@ -15,6 +15,7 @@ Notepad example for desktop written in Compose for Desktop library, using Compos
 * https://www.rgagnon.com/javadetails/java-0370.html -- Directory chooser
 * https://github.com/atarw/material-ui-swing   
 * https://github.com/sherter/google-java-format-gradle-plugin
+* flatlaf: New UI like Intellij IDEA
 
-![Desktop](screenshots/notepad.gif)
+![Desktop](screenshots/codeviewer_1.png)
 
