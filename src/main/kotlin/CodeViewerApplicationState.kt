@@ -37,7 +37,7 @@ class CodeViewerApplicationState {
     private val _windows = mutableStateListOf<CodeViewerWindowState>()
     val windows: List<CodeViewerWindowState> get() = _windows
 
-    fun newWindow(file: File) {
+    private fun newWindow(file: File) {
         println("newWindow: ${file.path}")
         _windows.add(
             CodeViewerWindowState(

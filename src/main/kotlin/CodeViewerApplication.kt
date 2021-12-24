@@ -15,15 +15,19 @@ fun ApplicationScope.CodeViewerApplication(state: CodeViewerApplicationState) {
         ApplicationTray(state)
     }
 
-    for (window in state.launcherWindow) {
-        key(window) {
-            LauncherWindow(window)
-        }
-    }
-
+    // Code window will bottom
+    // if the windows list is changed, call these code
     for (window in state.windows) {
         key(window) {
             CodeViewerWindow(window)
+        }
+    }
+
+    // New window will top
+    // if the launcherWindow list is changed, call these code
+    for (window in state.launcherWindow) {
+        key(window) {
+            LauncherWindow(window)
         }
     }
 }
