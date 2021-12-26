@@ -28,8 +28,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import common.LocalAppResources
 import kotlinx.coroutines.launch
+import util.DirectoryChooserDialog
 import util.FileChooserDialog
-import util.FileDialog
 
 /**
  * Created by yuchuan.gu
@@ -64,12 +64,18 @@ fun LauncherWindow(
         }
 
         if (state.openDialog.isAwaiting) {
-            FileChooserDialog(
+            DirectoryChooserDialog(
                 title = "Welcome to CodeViewer",
                 onResult = {
                     state.openDialog.onResult(it)
                 }
             )
+//            FileChooserDialog(
+//                title = "Welcome to CodeViewer",
+//                onResult = {
+//                    state.openDialog.onResult(it)
+//                }
+//            )
         }
     }
 }

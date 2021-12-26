@@ -1,14 +1,11 @@
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.window.application
 import com.formdev.flatlaf.FlatDarculaLaf
-import com.formdev.flatlaf.FlatIntelliJLaf
 import com.formdev.flatlaf.FlatLaf
-import com.formdev.flatlaf.IntelliJTheme
 import com.formdev.flatlaf.util.SystemInfo
 import common.LocalAppResources
 import common.rememberAppResources
-import javax.swing.LookAndFeel
-import javax.swing.plaf.multi.MultiLookAndFeel
+import javafx.application.Application
 
 fun main() = application {
     setupTheme()

@@ -8,6 +8,9 @@ plugins {
     id("org.jetbrains.compose") version ("1.0.0")
 }
 
+// use Java version that currently runs Gradle for source/target compatibility
+val javaCompatibility = JavaVersion.current()
+
 repositories {
     google()
     mavenCentral()
@@ -21,6 +24,28 @@ dependencies {
     implementation(compose.materialIconsExtended)
     implementation("io.github.vincenzopalazzo:material-ui-swing:1.1.2")
     implementation("com.formdev:flatlaf:1.6.5")
+
+    // if java version < 11, the sdk contain the javafx
+    if( javaCompatibility >= JavaVersion.VERSION_11 ) {
+        val javafxVersion = when( javaCompatibility ) {
+            JavaVersion.VERSION_11 -> "11.0.2"
+            JavaVersion.VERSION_15 -> "15.0.1"
+            else -> throw RuntimeException( "JavaFX 8, 11 or 15 required (running ${javaCompatibility})" )
+        }
+        val osName = System.getProperty( "os.name" ).toLowerCase()
+        val platform = when {
+            osName.startsWith("windows") -> "win"
+            osName.startsWith("mac") -> "mac"
+            else -> "linux"
+        }
+        implementation( "org.openjfx:javafx-base:${javafxVersion}:${platform}" )
+        implementation( "org.openjfx:javafx-controls:${javafxVersion}:${platform}" )
+        implementation( "org.openjfx:javafx-graphics:${javafxVersion}:${platform}" )
+        implementation( "org.openjfx:javafx-web:${javafxVersion}:${platform}" )
+        implementation( "org.openjfx:javafx-media:${javafxVersion}:${platform}" )
+        implementation( "org.openjfx:javafx-swing:${javafxVersion}:${platform}" )
+    }
+
 }
 
 compose.desktop {
