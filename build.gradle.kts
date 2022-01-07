@@ -48,7 +48,7 @@ dependencies {
         // M1 and Intel are distinguished only when javafxVersion is higher than 17 (Contain 17)
         if("mac" == platform && osArch == "aarch64") {
             platform = "mac-aarch64"
-            javafxVersion = "17.0.
+            javafxVersion = "17.0.1"
         }
         implementation( "org.openjfx:javafx-base:${javafxVersion}:${platform}" )
         implementation( "org.openjfx:javafx-controls:${javafxVersion}:${platform}" )
