@@ -10,6 +10,8 @@ plugins {
 
 // use Java version that currently runs Gradle for source/target compatibility
 val javaCompatibility = JavaVersion.current()
+//val javaCompatibility = JavaVersion.VERSION_1_8
+println(javaCompatibility)
 
 repositories {
     google()
@@ -26,17 +28,27 @@ dependencies {
     implementation("com.formdev:flatlaf:1.6.5")
 
     // if java version < 11, the sdk contain the javafx
+    // https://repo1.maven.org/maven2/org/openjfx/
     if( javaCompatibility >= JavaVersion.VERSION_11 ) {
-        val javafxVersion = when( javaCompatibility ) {
+        var javafxVersion = when( javaCompatibility ) {
             JavaVersion.VERSION_11 -> "11.0.2"
             JavaVersion.VERSION_15 -> "15.0.1"
+            JavaVersion.VERSION_17 -> "17.0.1"
             else -> throw RuntimeException( "JavaFX 8, 11 or 15 required (running ${javaCompatibility})" )
         }
         val osName = System.getProperty( "os.name" ).toLowerCase()
-        val platform = when {
+        val osArch = System.getProperty( "os.arch" ).toLowerCase()
+        println(osName)
+        println(osArch)
+        var platform = when {
             osName.startsWith("windows") -> "win"
             osName.startsWith("mac") -> "mac"
             else -> "linux"
+        }
+        // M1 and Intel are distinguished only when javafxVersion is higher than 17 (Contain 17)
+        if("mac" == platform && osArch == "aarch64") {
+            platform = "mac-aarch64"
+            javafxVersion = "17.0.
         }
         implementation( "org.openjfx:javafx-base:${javafxVersion}:${platform}" )
         implementation( "org.openjfx:javafx-controls:${javafxVersion}:${platform}" )

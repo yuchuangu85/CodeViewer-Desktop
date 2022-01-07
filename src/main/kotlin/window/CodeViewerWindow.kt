@@ -9,12 +9,11 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ui.MainView
 import ui.menu.WindowMenuBar
-import util.FileChooserDialog
-import util.FileDialog
+import util.fileChooserDialog
 import util.yesNoCancelDialog
 
 @Composable
-fun CodeViewerWindow(state: CodeViewerWindowState) {
+fun codeViewerWindow(state: CodeViewerWindowState) {
 
     val scope = rememberCoroutineScope()
     fun exit() = scope.launch {
@@ -34,7 +33,7 @@ fun CodeViewerWindow(state: CodeViewerWindowState) {
         MainView(state)
 
         if (state.openDialog.isAwaiting) {
-            FileChooserDialog(
+            fileChooserDialog(
                 title = "CodeViewer",
                 onResult = {
                     state.openDialog.onResult(it)
@@ -43,7 +42,7 @@ fun CodeViewerWindow(state: CodeViewerWindowState) {
         }
 
         if (state.saveDialog.isAwaiting) {
-            FileChooserDialog(
+            fileChooserDialog(
                 title = "CodeViewer",
                 onResult = { state.saveDialog.onResult(it) }
             )

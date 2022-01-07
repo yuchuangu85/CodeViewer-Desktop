@@ -6,7 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -15,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageShader
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.res.loadImageBitmap
 import androidx.compose.ui.res.useResource
@@ -28,8 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import common.LocalAppResources
 import kotlinx.coroutines.launch
-import util.DirectoryChooserDialog
-import util.FileChooserDialog
+import util.directoryChooserDialog
 
 /**
  * Created by yuchuan.gu
@@ -37,7 +34,7 @@ import util.FileChooserDialog
  * TIME 11:53
  */
 @Composable
-fun LauncherWindow(
+fun launcherWindow(
     state: LauncherWindowState
 ) {
     val scope = rememberCoroutineScope()
@@ -55,8 +52,8 @@ fun LauncherWindow(
         Row(
             modifier = Modifier.fillMaxSize()
         ) {
-            LauncherList()
-            LauncherOperatorList(
+            launcherList()
+            launcherOperatorList(
                 chooseFile = {
                     chooseFile()
                 }
@@ -64,7 +61,7 @@ fun LauncherWindow(
         }
 
         if (state.openDialog.isAwaiting) {
-            DirectoryChooserDialog(
+            directoryChooserDialog(
                 title = "Welcome to CodeViewer",
                 onResult = {
                     state.openDialog.onResult(it)
@@ -82,7 +79,7 @@ fun LauncherWindow(
 
 // 左侧：显示已经导入过的项目列表
 @Composable
-fun LauncherList() {
+fun launcherList() {
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth(0.4f)
@@ -96,7 +93,7 @@ fun LauncherList() {
 // 右侧：导入项目等操作
 @OptIn(ExperimentalUnitApi::class)
 @Composable
-fun LauncherOperatorList(chooseFile: () -> Unit) {
+fun launcherOperatorList(chooseFile: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()

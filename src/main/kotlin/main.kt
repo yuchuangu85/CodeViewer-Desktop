@@ -5,13 +5,12 @@ import com.formdev.flatlaf.FlatLaf
 import com.formdev.flatlaf.util.SystemInfo
 import common.LocalAppResources
 import common.rememberAppResources
-import javafx.application.Application
 
 fun main() = application {
     setupTheme()
     CompositionLocalProvider(LocalAppResources provides rememberAppResources()) {
         val state = rememberApplicationState()
-        CodeViewerApplication(state)
+        codeViewerApplication(state)
     }
 }
 

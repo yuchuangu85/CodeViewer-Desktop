@@ -6,20 +6,20 @@ import androidx.compose.ui.window.MenuScope
 import androidx.compose.ui.window.Tray
 import common.LocalAppResources
 import kotlinx.coroutines.launch
-import launcher.LauncherWindow
-import window.CodeViewerWindow
+import launcher.launcherWindow
+import window.codeViewerWindow
 
 @Composable
-fun ApplicationScope.CodeViewerApplication(state: CodeViewerApplicationState) {
+fun ApplicationScope.codeViewerApplication(state: CodeViewerApplicationState) {
     if (state.settings.isTrayEnabled && state.windows.isNotEmpty()) {
-        ApplicationTray(state)
+        applicationTray(state)
     }
 
     // Code window will bottom
     // if the windows list is changed, call these code
     for (window in state.windows) {
         key(window) {
-            CodeViewerWindow(window)
+            codeViewerWindow(window)
         }
     }
 
@@ -27,23 +27,23 @@ fun ApplicationScope.CodeViewerApplication(state: CodeViewerApplicationState) {
     // if the launcherWindow list is changed, call these code
     for (window in state.launcherWindow) {
         key(window) {
-            LauncherWindow(window)
+            launcherWindow(window)
         }
     }
 }
 
 @Composable
-private fun ApplicationScope.ApplicationTray(state: CodeViewerApplicationState) {
+private fun ApplicationScope.applicationTray(state: CodeViewerApplicationState) {
     Tray(
         LocalAppResources.current.icon,
         state = state.tray,
         tooltip = "CodeViewer",
-        menu = { ApplicationMenu(state) }
+        menu = { applicationMenu(state) }
     )
 }
 
 @Composable
-private fun MenuScope.ApplicationMenu(state: CodeViewerApplicationState) {
+private fun MenuScope.applicationMenu(state: CodeViewerApplicationState) {
     val scope = rememberCoroutineScope()
     fun exit() = scope.launch { state.exit() }
 

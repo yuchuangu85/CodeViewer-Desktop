@@ -3,26 +3,21 @@ package util
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.window.AwtWindow
 import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.WindowScope
-import common.LocalAppResources
 import javafx.application.Platform
 import javafx.embed.swing.JFXPanel
 import javafx.scene.Group
 import javafx.scene.Scene
-import javafx.scene.layout.BorderPane
 import javafx.stage.DirectoryChooser
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.swing.Swing
-import org.intellij.lang.annotations.JdkConstants
 import java.awt.BorderLayout
 import java.awt.Container
 import java.awt.FileDialog
@@ -35,7 +30,7 @@ import javafx.scene.paint.Color as JFXColor
 
 
 @Composable
-fun FrameWindowScope.FileDialog(
+fun FrameWindowScope.fileDialog(
     title: String,
     isLoad: Boolean,
     onResult: (result: Path?) -> Unit
@@ -60,7 +55,7 @@ fun FrameWindowScope.FileDialog(
 )
 
 @Composable
-fun FileChooserDialog(
+fun fileChooserDialog(
     title: String,
     onResult: (result: File) -> Unit
 ) {
@@ -82,13 +77,13 @@ fun FileChooserDialog(
 }
 
 @Composable
-fun DirectoryChooserDialog(
+fun directoryChooserDialog(
     title: String,
     onResult: (result: File) -> Unit
 ) {
     val panel = Panel()
     val jfxpanel = remember { JFXPanel() }
-    JavaFXPanel(
+    javaFXPanel(
         root = panel,
         panel = jfxpanel,
         // function to initialize JFXPanel, Group, Scene
@@ -105,7 +100,11 @@ fun DirectoryChooserDialog(
                 val directoryChooser = DirectoryChooser()
                 directoryChooser.title = title
                 val selectedFile = directoryChooser.showDialog(scene.window)
-                onResult(selectedFile);
+                if (selectedFile != null) {
+                    onResult(selectedFile);
+                } else {
+                    println("No Selection ")
+                }
             }
         },
     )
@@ -142,7 +141,7 @@ enum class AlertDialogResult {
 }
 
 @Composable
-fun JavaFXPanel(
+fun javaFXPanel(
     root: Container,
     panel: JFXPanel,
     onCreate: () -> Unit
