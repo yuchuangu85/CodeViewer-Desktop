@@ -18,10 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.swing.Swing
-import java.awt.BorderLayout
-import java.awt.Container
-import java.awt.FileDialog
-import java.awt.Panel
+import java.awt.*
 import java.io.File
 import java.nio.file.Path
 import javax.swing.*
@@ -71,7 +68,7 @@ fun fileChooserDialog(
         println("choose file or folder is: $file")
         onResult(file)
     } else {
-//        onResult(java.io.File(""))
+        onResult(File(""));
         println("No Selection ")
     }
 }
@@ -79,35 +76,22 @@ fun fileChooserDialog(
 @Composable
 fun directoryChooserDialog(
     title: String,
-    onResult: (result: File) -> Unit
+    onResult: (result: File) -> Unit,
+    op: File.(other: String) -> Unit // op是一个File的匿名扩展函数
 ) {
-    val panel = Panel()
-    val jfxpanel = remember { JFXPanel() }
-    javaFXPanel(
-        root = panel,
-        panel = jfxpanel,
-        // function to initialize JFXPanel, Group, Scene
-        onCreate = {
-            Platform.runLater {
-                val root = Group()
-                val scene = Scene(root, JFXColor.GRAY)
-//                jfxtext.x = 40.0
-//                jfxtext.y = 40.0
-//                jfxtext.font = JFXFont(25.0)
-//                jfxtext.text = "Welcome JavaFX! ${counter.value}"
-//                root.children.add(jfxtext)
-                jfxpanel.scene = scene
-                val directoryChooser = DirectoryChooser()
-                directoryChooser.title = title
-                val selectedFile = directoryChooser.showDialog(scene.window)
-                if (selectedFile != null) {
-                    onResult(selectedFile);
-                } else {
-                    println("No Selection ")
-                }
-            }
-        },
-    )
+    Platform.runLater {
+        val directoryChooser = DirectoryChooser()
+        directoryChooser.title = title
+        val selectedFile = directoryChooser.showDialog(null)
+        if (selectedFile != null) {
+            onResult(selectedFile)
+            op(selectedFile, ", title")
+        } else {
+            println("No Selection ")
+            onResult(File(""));
+            op(File(""), " No Selection")
+        }
+    }
 }
 
 @OptIn(DelicateCoroutinesApi::class)

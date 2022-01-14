@@ -5,9 +5,11 @@ import com.formdev.flatlaf.FlatLaf
 import com.formdev.flatlaf.util.SystemInfo
 import common.LocalAppResources
 import common.rememberAppResources
+import javafx.embed.swing.JFXPanel
 
 fun main() = application {
     setupTheme()
+    JFXPanel() // Init JavaFX Application, otherwise show error: Toolkit not initialized
     CompositionLocalProvider(LocalAppResources provides rememberAppResources()) {
         val state = rememberApplicationState()
         codeViewerApplication(state)

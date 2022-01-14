@@ -1,5 +1,11 @@
 Notepad example for desktop written in Compose for Desktop library, using Composable Window API
 
+## Update MSG
+
+### 2022-01-14
+> add tornadofx2 library
+> https://github.com/edvin/tornadofx2
+
 ## Running desktop application
 ```
 ./gradlew run

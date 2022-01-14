@@ -25,8 +25,12 @@ import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import common.LocalAppResources
+import javafx.application.Platform
 import kotlinx.coroutines.launch
+import tornadofx.chooseDirectory
 import util.directoryChooserDialog
+import javax.swing.KeyStroke
+
 
 /**
  * Created by yuchuan.gu
@@ -65,8 +69,22 @@ fun launcherWindow(
                 title = "Welcome to CodeViewer",
                 onResult = {
                     state.openDialog.onResult(it)
+                },
+                op = { other ->
+                    println(
+                        this.path + other
+                    )
                 }
             )
+//            Platform.runLater {
+//                chooseDirectory(
+//                    title = "Welcome to CodeViewer",
+//                    op = {
+//                        state.openDialog.onResult(this.initialDirectory)
+//                    }
+//                )
+//            }
+
 //            FileChooserDialog(
 //                title = "Welcome to CodeViewer",
 //                onResult = {
@@ -123,7 +141,7 @@ fun launcherOperatorList(chooseFile: () -> Unit) {
             }
             Box(
                 modifier = Modifier.align(Alignment.Start)
-            ){
+            ) {
                 Text(
                     text = "Open File",
                     modifier = Modifier

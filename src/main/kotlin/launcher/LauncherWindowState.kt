@@ -35,7 +35,7 @@ class LauncherWindowState(
     suspend fun chooseFile() {
         val file = openDialog.awaitResult()
         println("chooseFile: ${file?.path}")
-        if (file != null) {
+        if (file != null && file.isAbsolute) {
             this.file = file
             openEditor(this)
             exit(this)
