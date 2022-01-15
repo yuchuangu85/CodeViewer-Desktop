@@ -5,29 +5,33 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import ui.editor.Editors
+import java.io.File
 
 // 可展开文件（文件夹）
 class ExpandableFile(
-    val codeFile: CodeFile,
+    val codeFile: File,
     val level: Int,
 ) {
     var children: List<ExpandableFile> by mutableStateOf(emptyList())
-    val canExpand: Boolean get() = codeFile.hasChildren
+    val canExpand: Boolean get() = codeFile.list()?.isEmpty() == true
 
     fun toggleExpanded() {
-        children = if (children.isEmpty()) {
-            codeFile.children
-                .map { ExpandableFile(it, level + 1) }
-                .sortedWith(compareBy({ it.codeFile.isDirectory }, { it.codeFile.name }))
+        val list = codeFile.listFiles()
+        children = if (children.isEmpty() && list != null && list.isNotEmpty()) {
+            println("ExpandableFile#toggleExpanded: ${list.size}")
+            list.map {
+                ExpandableFile(it, level + 1)
+            }.sortedWith(compareBy({ it.codeFile.isDirectory }, { it.codeFile.name }))
                 .sortedBy { !it.codeFile.isDirectory }
         } else {
             emptyList()
         }
+        println("ExpandableFile#toggleExpanded#Children: ${children.size}")
     }
 }
 
 // 文件树
-class FileTree(root: CodeFile, private val editors: Editors) {
+class FileTree(root: File, private val editors: Editors) {
     private val expandableRoot = ExpandableFile(root, 0).apply {
         toggleExpanded()
     }

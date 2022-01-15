@@ -4,6 +4,7 @@ import androidx.compose.animation.core.Spring.StiffnessLow
 import androidx.compose.animation.core.SpringSpec
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
@@ -14,18 +15,22 @@ import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.awt.SwingPanel
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import ui.editor.EditorEmptyView
 import ui.editor.EditorTabsView
-import ui.editor.EditorView
+import ui.editor.LoadAndShowCode
 import ui.filetree.FileTreeView
 import ui.filetree.FileTreeViewTabView
 import ui.statusbar.StatusBar
 import util.SplitterState
 import util.VerticalSplittable
+import javax.swing.BoxLayout
+import javax.swing.JPanel
 
-// Code View
+// Code Viewer View
 @Composable
 fun CodeViewerView(model: CodeViewerModel) {
     val panelState = remember { PanelState() }
@@ -47,6 +52,7 @@ fun CodeViewerView(model: CodeViewerModel) {
                 (panelState.expandedSize + it).coerceAtLeast(panelState.expandedSizeMin)
         }
     ) {
+        // 左侧：代码文件树结构
         ResizablePanel(Modifier.width(animatedSize).fillMaxHeight(), panelState) {
             Column {
                 FileTreeViewTabView()
@@ -54,12 +60,22 @@ fun CodeViewerView(model: CodeViewerModel) {
             }
         }
 
+        // 右侧：代码详情界面
         Box {
             if (model.editors.active != null) {
                 Column(Modifier.fillMaxSize()) {
                     EditorTabsView(model.editors)
-                    Box(Modifier.weight(1f)) {
-                        EditorView(model.editors.active!!, model.settings)
+                    Box(Modifier.weight(1f).background(Color.White)) {
+//                        EditorView(model.editors.active!!, model.settings)
+                        SwingPanel(
+                            factory = {
+                                JPanel().apply {
+                                    layout = BoxLayout(this, BoxLayout.Y_AXIS)
+                                    LoadAndShowCode(model.editors.active!!, model.settings, this)
+                                }
+                            },
+                            modifier = Modifier.fillMaxHeight().fillMaxWidth()
+                        )
                     }
                     StatusBar(model.settings)
                 }

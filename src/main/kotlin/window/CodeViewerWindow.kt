@@ -7,7 +7,7 @@ import androidx.compose.ui.window.*
 import common.LocalAppResources
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import ui.MainView
+import ui.CodeViewerMainView
 import ui.menu.WindowMenuBar
 import util.fileChooserDialog
 import util.yesNoCancelDialog
@@ -30,7 +30,7 @@ fun codeViewerWindow(state: CodeViewerWindowState) {
 
         WindowNotifications(state)
         WindowMenuBar(state)
-        MainView(state)
+        CodeViewerMainView(state)
 
         if (state.openDialog.isAwaiting) {
             fileChooserDialog(

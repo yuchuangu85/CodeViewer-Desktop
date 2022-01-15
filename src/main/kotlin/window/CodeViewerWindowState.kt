@@ -30,6 +30,7 @@ class CodeViewerWindowState(
     var isChanged by mutableStateOf(false)
         private set
 
+    // Code File or directory imported
     var file by mutableStateOf(file)
         private set
 

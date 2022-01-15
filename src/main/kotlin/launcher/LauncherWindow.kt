@@ -33,6 +33,8 @@ import javax.swing.KeyStroke
 
 
 /**
+ * 启动界面，导入项目界面
+ *
  * Created by yuchuan.gu
  * DATE 2021/12/8
  * TIME 11:53
@@ -65,25 +67,15 @@ fun launcherWindow(
         }
 
         if (state.openDialog.isAwaiting) {
-            directoryChooserDialog(
-                title = "Welcome to CodeViewer",
-                onResult = {
-                    state.openDialog.onResult(it)
-                },
-                op = { other ->
-                    println(
-                        this.path + other
-                    )
-                }
-            )
-//            Platform.runLater {
-//                chooseDirectory(
-//                    title = "Welcome to CodeViewer",
-//                    op = {
-//                        state.openDialog.onResult(this.initialDirectory)
-//                    }
-//                )
-//            }
+            Platform.runLater {
+                val file = chooseDirectory(
+                    title = "Welcome to CodeViewer",
+                    op = {
+
+                    }
+                )
+                state.openDialog.onResult(file)
+            }
 
 //            FileChooserDialog(
 //                title = "Welcome to CodeViewer",

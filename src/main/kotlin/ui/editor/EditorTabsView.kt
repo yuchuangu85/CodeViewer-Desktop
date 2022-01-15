@@ -31,7 +31,9 @@ fun EditorTabsView(model: Editors) = Row(Modifier.horizontalScroll(rememberScrol
 }
 
 @Composable
-fun EditorTabView(model: Editor) = Surface(
+fun EditorTabView(
+    model: Editor
+) = Surface(
     color = if (model.isActive) {
         AppTheme.colors.backgroundDark
     } else {
@@ -47,7 +49,7 @@ fun EditorTabView(model: Editor) = Surface(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            model.fileName,
+            model.file.name,
             color = LocalContentColor.current,
             fontSize = 12.sp,
             modifier = Modifier.padding(horizontal = 4.dp)
