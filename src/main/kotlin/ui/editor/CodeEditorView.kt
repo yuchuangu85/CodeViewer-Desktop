@@ -1,10 +1,8 @@
 package ui.editor
 
 import common.Settings
-import fife.ui.rsyntaxtextarea.MatchedBracketPopup
-import fife.ui.rsyntaxtextarea.RSyntaxTextArea
-import fife.ui.rsyntaxtextarea.RSyntaxTextAreaEditorKit
-import fife.ui.rsyntaxtextarea.Theme
+import fife.ui.rsyntaxtextarea.*
+import fife.ui.rtextarea.RTextScrollPane
 import java.awt.event.InputEvent
 import java.awt.event.KeyEvent
 import java.io.BufferedReader
@@ -18,6 +16,7 @@ import javax.swing.JPanel
 import javax.swing.KeyStroke
 import javax.swing.event.HyperlinkEvent
 
+
 /**
  * Created by yuchuan
  * DATE 2022/1/15
@@ -29,7 +28,9 @@ fun LoadAndShowCode(
     jPanel: JPanel,
 ) {
     val textArea = CreateTextArea(model, settings)
-    jPanel.add(textArea)
+    textArea.syntaxEditingStyle = SyntaxConstants.SYNTAX_STYLE_KOTLIN
+    val scrollPane = RTextScrollPane(textArea, true)
+    jPanel.add(scrollPane)
     val r: BufferedReader
     try {
         val inputStream: InputStream = model.file.inputStream();
