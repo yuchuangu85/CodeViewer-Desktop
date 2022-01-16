@@ -3,6 +3,7 @@ package ui.editor
 import common.Settings
 import fife.ui.rsyntaxtextarea.*
 import fife.ui.rtextarea.RTextScrollPane
+import java.awt.Color
 import java.awt.event.InputEvent
 import java.awt.event.KeyEvent
 import java.io.BufferedReader
@@ -72,6 +73,7 @@ fun CreateTextArea(
     textArea.markOccurrences = true
     textArea.isCodeFoldingEnabled = true
     textArea.isClearWhitespaceLinesEnabled = false
+    textArea.background = Color.white
 
     val im = textArea.inputMap
     val am = textArea.actionMap

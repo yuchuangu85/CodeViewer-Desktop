@@ -58,6 +58,10 @@ class CodeViewerWindowState(
         return true
     }
 
+    fun changeTheme(name: String, themeXml: String) {
+
+    }
+
     fun sendNotification(notification: Notification) {
         application.sendNotification(notification)
     }

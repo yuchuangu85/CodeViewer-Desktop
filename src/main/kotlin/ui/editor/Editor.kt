@@ -17,4 +17,8 @@ class Editor(
     fun activate() {
         selection.selected = this
     }
+
+    fun isSame(file: File): Boolean {
+        return this.file.absolutePath.equals(file.absolutePath)
+    }
 }

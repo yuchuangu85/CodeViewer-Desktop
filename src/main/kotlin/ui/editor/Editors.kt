@@ -13,14 +13,26 @@ class Editors {
 
     val active: Editor? get() = selection.selected as Editor?
 
+    /**
+     * If no editor, new one and add to editors, else switch to it
+     */
     fun open(codeFile: File) {
-        val editor = Editor(codeFile)
-        editor.selection = selection
-        editor.close = {
-            close(editor)
+        var currentEditor: Editor? = null
+        for (editor in editors) {
+            if (editor.isSame(codeFile)) {
+                currentEditor = editor;
+                currentEditor.selection = selection
+            }
         }
-        editors.add(editor)
-        editor.activate()
+        if (currentEditor == null) {
+            currentEditor = Editor(codeFile)
+            currentEditor.selection = selection
+            currentEditor.close = {
+                close(currentEditor)
+            }
+            editors.add(currentEditor)
+        }
+        currentEditor.activate()
     }
 
     private fun close(editor: Editor) {

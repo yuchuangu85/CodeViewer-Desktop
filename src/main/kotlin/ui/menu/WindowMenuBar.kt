@@ -6,7 +6,11 @@ import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.WindowPlacement
 import kotlinx.coroutines.launch
+import ui.theme.ThemeAction
 import window.CodeViewerWindowState
+import javax.swing.ButtonGroup
+import javax.swing.JMenu
+import javax.swing.JRadioButtonMenuItem
 
 /**
  * Created by yuchuan
@@ -19,6 +23,7 @@ fun FrameWindowScope.WindowMenuBar(state: CodeViewerWindowState) = MenuBar {
 
     fun open() = scope.launch { state.open() }
     fun exit() = scope.launch { state.exit() }
+    fun changeTheme(name: String, themeXml: String) = scope.launch { state.changeTheme(name, themeXml) }
 
     Menu("File") {
 //        Item("New window", onClick = state::newWindow)
@@ -36,5 +41,16 @@ fun FrameWindowScope.WindowMenuBar(state: CodeViewerWindowState) = MenuBar {
             if (state.window.placement == WindowPlacement.Fullscreen) "Exit fullscreen" else "Enter fullscreen",
             onClick = state::toggleFullscreen
         )
+    }
+
+    Menu("Theme") {
+        Item("Default", onClick = { changeTheme("Default", "default.xml") })
+        Item("Default (System Selected)", onClick = { changeTheme("Default (System Selection)", "default-alt.xml") })
+        Item("Dark", onClick = { changeTheme("Dark", "dark.xml") })
+        Item("Druid", onClick = { changeTheme("Druid", "druid.xml") })
+        Item("Monokai", onClick = { changeTheme("Monokai", "monokai.xml") })
+        Item("Eclipse", onClick = { changeTheme("Eclipse", "eclipse.xml") })
+        Item("IDEA", onClick = { changeTheme("IDEA", "idea.xml") })
+        Item("Visual Studio", onClick = { changeTheme("Visual Studio", "vs.xml") })
     }
 }
