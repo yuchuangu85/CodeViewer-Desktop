@@ -1,6 +1,6 @@
 package ui.editor
 
-import common.Settings
+import settings.CodeViewerSettings
 import fife.ui.rsyntaxtextarea.*
 import fife.ui.rtextarea.RTextScrollPane
 import java.awt.Color
@@ -25,7 +25,7 @@ import javax.swing.event.HyperlinkEvent
  */
 fun LoadAndShowCode(
     model: Editor,
-    settings: Settings,
+    settings: CodeViewerSettings,
     jPanel: JPanel,
 ) {
     val textArea = CreateTextArea(model, settings)
@@ -51,7 +51,7 @@ fun LoadAndShowCode(
 
 fun CreateTextArea(
     model: Editor,
-    settings: Settings
+    settings: CodeViewerSettings
 ): RSyntaxTextArea {
     val textArea = RSyntaxTextArea(25, 70)
     textArea.tabSize = 3
@@ -108,11 +108,12 @@ fun CreateTextArea(
     // developer ensures the RSTA Theme always matches the LookAndFeel as
     // far as light/dark is concerned, this property can be omitted.
     System.setProperty(MatchedBracketPopup.PROPERTY_CONSIDER_TEXTAREA_BACKGROUND, "true")
+    settings.themeAction.performTheme(textArea)
     return textArea
 }
 
 @Throws(IOException::class)
-private fun createCopyAsStyledTextAction(themeName: String): Action? {
+private fun createCopyAsStyledTextAction(themeName: String): Action {
     val resource = "/fife/ui/rsyntaxtextarea/themes/$themeName.xml"
     val theme: Theme =
         Theme.load(RSyntaxTextArea::class.java.getResourceAsStream(resource))

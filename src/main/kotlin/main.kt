@@ -12,7 +12,7 @@ fun main() = application {
     JFXPanel() // Init JavaFX Application, otherwise show error: Toolkit not initialized
     CompositionLocalProvider(LocalAppResources provides rememberAppResources()) {
         val state = rememberApplicationState()
-        codeViewerApplication(state)
+        codeViewerApplication(state, state.themeState)
     }
 }
 

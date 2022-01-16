@@ -9,11 +9,15 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ui.CodeViewerMainView
 import ui.menu.WindowMenuBar
+import ui.theme.ThemeState
 import util.fileChooserDialog
 import util.yesNoCancelDialog
 
 @Composable
-fun codeViewerWindow(state: CodeViewerWindowState) {
+fun codeViewerWindow(
+    state: CodeViewerWindowState,
+    themeState: ThemeState
+) {
 
     val scope = rememberCoroutineScope()
     fun exit() = scope.launch {
@@ -29,8 +33,8 @@ fun codeViewerWindow(state: CodeViewerWindowState) {
 //        LaunchedEffect(Unit) { state.run() }
 
         WindowNotifications(state)
-        WindowMenuBar(state)
-        CodeViewerMainView(state)
+        WindowMenuBar(state, themeState)
+        CodeViewerMainView(state, themeState)
 
         if (state.openDialog.isAwaiting) {
             fileChooserDialog(
@@ -61,7 +65,7 @@ fun codeViewerWindow(state: CodeViewerWindowState) {
 private fun titleOf(state: CodeViewerWindowState): String {
     val changeMark = if (state.isChanged) "*" else ""
     val filePath = state.file
-    return "$changeMark$filePath - Notepad"
+    return "$changeMark$filePath - Code Viewer"
 }
 
 @Composable

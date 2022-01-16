@@ -10,13 +10,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.*
-import common.Settings
+import settings.CodeViewerSettings
 
 private val MinFontSize = 6.sp
 private val MaxFontSize = 40.sp
 
 @Composable
-fun StatusBar(settings: Settings) = Box(
+fun StatusBar(settings: CodeViewerSettings) = Box(
     Modifier
         .height(32.dp)
         .fillMaxWidth()

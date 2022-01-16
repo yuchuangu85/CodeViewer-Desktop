@@ -19,12 +19,14 @@ import androidx.compose.ui.awt.SwingPanel
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
+import fife.ui.rsyntaxtextarea.Theme
 import ui.editor.EditorEmptyView
 import ui.editor.EditorTabsView
 import ui.editor.LoadAndShowCode
 import ui.filetree.FileTreeView
 import ui.filetree.FileTreeViewTabView
 import ui.statusbar.StatusBar
+import ui.theme.ThemeState
 import util.SplitterState
 import util.VerticalSplittable
 import javax.swing.BoxLayout
@@ -32,7 +34,10 @@ import javax.swing.JPanel
 
 // Code Viewer View
 @Composable
-fun CodeViewerView(model: CodeViewerModel) {
+fun CodeViewerView(
+    model: CodeViewerModel,
+    themeState: ThemeState
+) {
     val panelState = remember { PanelState() }
 
     val animatedSize = if (panelState.splitter.isResizing) {
@@ -71,13 +76,13 @@ fun CodeViewerView(model: CodeViewerModel) {
                             factory = {
                                 JPanel().apply {
                                     layout = BoxLayout(this, BoxLayout.Y_AXIS)
-                                    LoadAndShowCode(model.editors.active!!, model.settings, this)
+                                    LoadAndShowCode(model.editors.active!!, themeState.settings, this)
                                 }
                             },
                             modifier = Modifier.fillMaxHeight().fillMaxWidth()
                         )
                     }
-                    StatusBar(model.settings)
+                    StatusBar(themeState.settings)
                 }
             } else {
                 EditorEmptyView()

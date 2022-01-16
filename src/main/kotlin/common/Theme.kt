@@ -29,4 +29,9 @@ object AppTheme {
         val annotation: SpanStyle = SpanStyle(Color(0xFFBBB529)),
         val comment: SpanStyle = SpanStyle(Color(0xFF808080))
     )
+
+    class ThemeData(
+        name: String,
+        themeXml: String
+    )
 }

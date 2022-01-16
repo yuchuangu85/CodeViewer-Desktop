@@ -7,7 +7,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
-import common.Settings
+import settings.CodeViewerSettings
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -21,8 +21,6 @@ class CodeViewerWindowState(
     file: File,
     private val exit: (CodeViewerWindowState) -> Unit
 ) {
-    val settings: Settings get() = application.settings
-
     val window = WindowState(
         size = DpSize(1200.dp, 800.dp)
     )
@@ -56,10 +54,6 @@ class CodeViewerWindowState(
     fun exit(): Boolean {
         exit(this)
         return true
-    }
-
-    fun changeTheme(name: String, themeXml: String) {
-
     }
 
     fun sendNotification(notification: Notification) {

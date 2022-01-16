@@ -7,6 +7,7 @@ import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.WindowPlacement
 import kotlinx.coroutines.launch
 import ui.theme.ThemeAction
+import ui.theme.ThemeState
 import window.CodeViewerWindowState
 import javax.swing.ButtonGroup
 import javax.swing.JMenu
@@ -18,12 +19,12 @@ import javax.swing.JRadioButtonMenuItem
  * TIME 22:27
  */
 @Composable
-fun FrameWindowScope.WindowMenuBar(state: CodeViewerWindowState) = MenuBar {
+fun FrameWindowScope.WindowMenuBar(state: CodeViewerWindowState, themeState: ThemeState) = MenuBar {
     val scope = rememberCoroutineScope()
 
     fun open() = scope.launch { state.open() }
     fun exit() = scope.launch { state.exit() }
-    fun changeTheme(name: String, themeXml: String) = scope.launch { state.changeTheme(name, themeXml) }
+    fun changeTheme(name: String, themeXml: String) = scope.launch { themeState.changeTheme(name, themeXml) }
 
     Menu("File") {
 //        Item("New window", onClick = state::newWindow)
@@ -34,8 +35,8 @@ fun FrameWindowScope.WindowMenuBar(state: CodeViewerWindowState) = MenuBar {
 
     Menu("Settings") {
         Item(
-            if (state.settings.isTrayEnabled) "Hide tray" else "Show tray",
-            onClick = state.settings::toggleTray
+            if (themeState.settings.isTrayEnabled) "Hide tray" else "Show tray",
+            onClick = themeState.settings::toggleTray
         )
         Item(
             if (state.window.placement == WindowPlacement.Fullscreen) "Exit fullscreen" else "Enter fullscreen",

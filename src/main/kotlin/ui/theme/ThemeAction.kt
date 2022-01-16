@@ -12,21 +12,34 @@ import javax.swing.AbstractAction
  * DATE 2022/1/15
  * TIME 23:34
  */
-class ThemeAction internal constructor(name: String?, xml: String, textArea: RSyntaxTextArea) : AbstractAction() {
+class ThemeAction internal constructor(name: String?, xml: String) : AbstractAction() {
 
-    private val xml: String
-    private val textArea: RSyntaxTextArea
+    private var xml: String
 
     init {
         putValue(NAME, name)
         this.xml = xml
-        this.textArea = textArea
     }
 
-    override fun actionPerformed(e: ActionEvent) {
-        val `in` = javaClass.getResourceAsStream("/org/fife/ui/rsyntaxtextarea/themes/$xml")
+    fun updateTheme(name: String?, xml: String) {
+        putValue(NAME, name)
+        this.xml = xml
+    }
+
+    override fun actionPerformed(e: ActionEvent?) {
+//        val inputStream = javaClass.getResourceAsStream("/fife/ui/rsyntaxtextarea/themes/$xml")
+//        try {
+//            val theme: Theme = Theme.load(inputStream)
+//            theme.apply(textArea)
+//        } catch (ioe: IOException) {
+//            ioe.printStackTrace()
+//        }
+    }
+
+    fun performTheme(textArea: RSyntaxTextArea) {
+        val inputStream = javaClass.getResourceAsStream("/fife/ui/rsyntaxtextarea/themes/$xml")
         try {
-            val theme: Theme = Theme.load(`in`)
+            val theme: Theme = Theme.load(inputStream)
             theme.apply(textArea)
         } catch (ioe: IOException) {
             ioe.printStackTrace()

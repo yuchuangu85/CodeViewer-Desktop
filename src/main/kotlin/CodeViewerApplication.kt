@@ -7,19 +7,26 @@ import androidx.compose.ui.window.Tray
 import common.LocalAppResources
 import kotlinx.coroutines.launch
 import launcher.launcherWindow
+import ui.theme.ThemeAction
+import ui.theme.ThemeState
+import window.CodeViewerWindowState
 import window.codeViewerWindow
 
 @Composable
-fun ApplicationScope.codeViewerApplication(state: CodeViewerApplicationState) {
-    if (state.settings.isTrayEnabled && state.windows.isNotEmpty()) {
+fun ApplicationScope.codeViewerApplication(
+    state: CodeViewerApplicationState,
+    themeState: ThemeState
+) {
+    if (themeState.settings.isTrayEnabled && state.windows.isNotEmpty()) {
         applicationTray(state)
     }
 
+    println("main::rememberApplicationState")
     // Code window will bottom
     // if the windows list is changed, call these code
     for (window in state.windows) {
         key(window) {
-            codeViewerWindow(window)
+            codeViewerWindow(window, themeState)
         }
     }
 
