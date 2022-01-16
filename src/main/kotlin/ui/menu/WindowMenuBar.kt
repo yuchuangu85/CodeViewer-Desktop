@@ -6,12 +6,8 @@ import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.WindowPlacement
 import kotlinx.coroutines.launch
-import ui.theme.ThemeAction
-import ui.theme.ThemeState
+import settings.ThemeState
 import window.CodeViewerWindowState
-import javax.swing.ButtonGroup
-import javax.swing.JMenu
-import javax.swing.JRadioButtonMenuItem
 
 /**
  * Created by yuchuan

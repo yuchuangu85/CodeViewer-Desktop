@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ui.CodeViewerMainView
 import ui.menu.WindowMenuBar
-import ui.theme.ThemeState
+import settings.ThemeState
 import util.fileChooserDialog
 import util.yesNoCancelDialog
 

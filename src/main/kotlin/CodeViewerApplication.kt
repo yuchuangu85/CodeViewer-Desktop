@@ -7,9 +7,7 @@ import androidx.compose.ui.window.Tray
 import common.LocalAppResources
 import kotlinx.coroutines.launch
 import launcher.launcherWindow
-import ui.theme.ThemeAction
-import ui.theme.ThemeState
-import window.CodeViewerWindowState
+import settings.ThemeState
 import window.codeViewerWindow
 
 @Composable

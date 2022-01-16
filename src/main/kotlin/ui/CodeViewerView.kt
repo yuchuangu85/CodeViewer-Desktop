@@ -19,14 +19,13 @@ import androidx.compose.ui.awt.SwingPanel
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
-import fife.ui.rsyntaxtextarea.Theme
 import ui.editor.EditorEmptyView
 import ui.editor.EditorTabsView
 import ui.editor.LoadAndShowCode
 import ui.filetree.FileTreeView
 import ui.filetree.FileTreeViewTabView
 import ui.statusbar.StatusBar
-import ui.theme.ThemeState
+import settings.ThemeState
 import util.SplitterState
 import util.VerticalSplittable
 import javax.swing.BoxLayout
@@ -82,7 +81,7 @@ fun CodeViewerView(
                             modifier = Modifier.fillMaxHeight().fillMaxWidth()
                         )
                     }
-                    StatusBar(themeState.settings)
+                    StatusBar(themeState)
                 }
             } else {
                 EditorEmptyView()

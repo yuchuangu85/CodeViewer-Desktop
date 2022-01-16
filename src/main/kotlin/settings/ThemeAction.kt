@@ -1,4 +1,4 @@
-package ui.theme
+package settings
 
 import fife.ui.rsyntaxtextarea.RSyntaxTextArea
 import fife.ui.rsyntaxtextarea.Theme

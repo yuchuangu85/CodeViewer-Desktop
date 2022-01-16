@@ -4,13 +4,11 @@ import androidx.compose.foundation.text.selection.DisableSelection
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import common.AppTheme
-import settings.CodeViewerSettings
 import ui.editor.Editors
 import ui.filetree.FileTree
-import ui.theme.ThemeState
+import settings.ThemeState
 import window.CodeViewerWindowState
 
 /**

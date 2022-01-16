@@ -11,12 +11,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.*
 import settings.CodeViewerSettings
+import settings.ThemeState
 
 private val MinFontSize = 6.sp
 private val MaxFontSize = 40.sp
 
 @Composable
-fun StatusBar(settings: CodeViewerSettings) = Box(
+fun StatusBar(themeState: ThemeState) = Box(
     Modifier
         .height(32.dp)
         .fillMaxWidth()
@@ -34,8 +35,10 @@ fun StatusBar(settings: CodeViewerSettings) = Box(
 
         CompositionLocalProvider(LocalDensity provides LocalDensity.current.scale(0.5f)) {
             Slider(
-                (settings.fontSize - MinFontSize) / (MaxFontSize - MinFontSize),
-                onValueChange = { settings.fontSize = lerp(MinFontSize, MaxFontSize, it) },
+                (themeState.settings.fontSize - MinFontSize) / (MaxFontSize - MinFontSize),
+                onValueChange = {
+                    themeState.resetFontSize(lerp(MinFontSize, MaxFontSize, it))
+                },
                 modifier = Modifier.width(240.dp).align(Alignment.CenterVertically)
             )
         }

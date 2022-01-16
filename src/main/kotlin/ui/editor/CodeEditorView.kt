@@ -4,6 +4,7 @@ import settings.CodeViewerSettings
 import fife.ui.rsyntaxtextarea.*
 import fife.ui.rtextarea.RTextScrollPane
 import java.awt.Color
+import java.awt.Font
 import java.awt.event.InputEvent
 import java.awt.event.KeyEvent
 import java.io.BufferedReader
@@ -109,6 +110,7 @@ fun CreateTextArea(
     // far as light/dark is concerned, this property can be omitted.
     System.setProperty(MatchedBracketPopup.PROPERTY_CONSIDER_TEXTAREA_BACKGROUND, "true")
     settings.themeAction.performTheme(textArea)
+    textArea.font = Font("Default", Font.ITALIC, settings.fontSize.value.toInt())
     return textArea
 }
 
