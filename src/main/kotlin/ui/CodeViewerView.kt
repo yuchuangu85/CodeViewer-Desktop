@@ -21,11 +21,12 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import ui.editor.EditorEmptyView
 import ui.editor.EditorTabsView
-import ui.editor.LoadAndShowCode
+import ui.editor.CodeEditorView
 import ui.filetree.FileTreeView
 import ui.filetree.FileTreeViewTabView
 import ui.statusbar.StatusBar
 import settings.ThemeState
+import ui.editor.LoadCodeFile
 import util.SplitterState
 import util.VerticalSplittable
 import javax.swing.BoxLayout
@@ -70,12 +71,13 @@ fun CodeViewerView(
                 Column(Modifier.fillMaxSize()) {
                     EditorTabsView(model.editors)
                     Box(Modifier.weight(1f).background(Color.White)) {
-//                        EditorView(model.editors.active!!, model.settings)
+                        val codeView = CodeEditorView(model.editors.active!!, themeState.settings)
                         SwingPanel(
                             factory = {
                                 JPanel().apply {
                                     layout = BoxLayout(this, BoxLayout.Y_AXIS)
-                                    LoadAndShowCode(model.editors.active!!, themeState.settings, this)
+                                    this.add(codeView)
+
                                 }
                             },
                             modifier = Modifier.fillMaxHeight().fillMaxWidth()

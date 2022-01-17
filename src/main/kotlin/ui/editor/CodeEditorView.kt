@@ -1,5 +1,6 @@
 package ui.editor
 
+import androidx.compose.runtime.Composable
 import settings.CodeViewerSettings
 import fife.ui.rsyntaxtextarea.*
 import fife.ui.rtextarea.RTextScrollPane
@@ -24,15 +25,19 @@ import javax.swing.event.HyperlinkEvent
  * DATE 2022/1/15
  * TIME 20:13
  */
-fun LoadAndShowCode(
+@Composable
+fun CodeEditorView(
     model: Editor,
     settings: CodeViewerSettings,
-    jPanel: JPanel,
-) {
+): RTextScrollPane {
     val textArea = CreateTextArea(model, settings)
     textArea.syntaxEditingStyle = SyntaxConstants.SYNTAX_STYLE_KOTLIN
-    val scrollPane = RTextScrollPane(textArea, true)
-    jPanel.add(scrollPane)
+    LoadCodeFile(model, textArea)
+    return RTextScrollPane(textArea, true)
+}
+
+@Composable
+fun LoadCodeFile(model: Editor, textArea: RSyntaxTextArea) {
     val r: BufferedReader
     try {
         val inputStream: InputStream = model.file.inputStream();
@@ -50,6 +55,7 @@ fun LoadAndShowCode(
     }
 }
 
+@Composable
 fun CreateTextArea(
     model: Editor,
     settings: CodeViewerSettings

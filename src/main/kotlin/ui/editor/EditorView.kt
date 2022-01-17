@@ -2,30 +2,32 @@ package ui.editor
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.PointMode.Companion.Lines
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.unit.dp
+import com.sun.scenario.Settings
 import common.AppTheme
 import settings.CodeViewerSettings
+import util.loadableScoped
 import kotlin.text.Regex.Companion.fromLiteral
 
 @Composable
-fun EditorView(
-    model: Editor,
-    settings: CodeViewerSettings
-) = key(model) {
+fun EditorView(model: Editor, settings: Settings) = key(model) {
     with (LocalDensity.current) {
         SelectionContainer {
             Surface(
                 Modifier.fillMaxSize(),
                 color = AppTheme.colors.backgroundDark,
             ) {
-
-
+//                val lines by loadableScoped(model.lines)
+//
 //                if (lines != null) {
 //                    Box {
 //                        Lines(lines!!, settings)
