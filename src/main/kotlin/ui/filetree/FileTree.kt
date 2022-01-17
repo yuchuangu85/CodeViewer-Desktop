@@ -1,6 +1,5 @@
 package ui.filetree
 
-import common.CodeFile
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -13,20 +12,17 @@ class ExpandableFile(
     val level: Int,
 ) {
     var children: List<ExpandableFile> by mutableStateOf(emptyList())
-    val canExpand: Boolean get() = codeFile.list()?.isEmpty() == true
+    val canExpand: Boolean get() = codeFile.listFiles()?.isNotEmpty() == true
 
     fun toggleExpanded() {
         val list = codeFile.listFiles()
         children = if (children.isEmpty() && list != null && list.isNotEmpty()) {
-            println("ExpandableFile#toggleExpanded: ${list.size}")
-            list.map {
-                ExpandableFile(it, level + 1)
-            }.sortedWith(compareBy({ it.codeFile.isDirectory }, { it.codeFile.name }))
+            list.map { ExpandableFile(it, level + 1) }
+                .sortedWith(compareBy({ it.codeFile.isDirectory }, { it.codeFile.name }))
                 .sortedBy { !it.codeFile.isDirectory }
         } else {
             emptyList()
         }
-        println("ExpandableFile#toggleExpanded#Children: ${children.size}")
     }
 }
 
