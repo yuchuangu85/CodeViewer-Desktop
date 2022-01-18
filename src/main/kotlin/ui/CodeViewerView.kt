@@ -19,6 +19,7 @@ import androidx.compose.ui.awt.SwingPanel
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
+import common.Font
 import ui.editor.EditorEmptyView
 import ui.editor.EditorTabsView
 import ui.editor.CodeEditorView
@@ -72,6 +73,7 @@ fun CodeViewerView(
                     EditorTabsView(model.editors)
                     Box(Modifier.weight(1f).background(Color.White)) {
                         val codeView = CodeEditorView(model.editors.active!!, themeState.settings)
+                        codeView.gutter.lineNumberFont = java.awt.Font("Default",java.awt.Font.ITALIC, themeState.settings.fontSize.value.toInt())
                         SwingPanel(
                             factory = {
                                 JPanel().apply {
