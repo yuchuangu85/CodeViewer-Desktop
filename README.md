@@ -25,3 +25,6 @@ Notepad example for desktop written in Compose for Desktop library, using Compos
 
 ![Desktop](screenshots/codeviewer_1.png)
 
+![Desktop](screenshots/codeviewer2.png)
+
+![Desktop](screenshots/codeviewer3.png)
